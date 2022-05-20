@@ -29,19 +29,19 @@ components:
       - value: $(JAVA_OPTS)
         name: MAVEN_OPTS
 commands:
-  - name: 1. Build
+  - id: 1. Build
     actions:
       - workdir: '${CHE_PROJECTS_ROOT}/spring-petclinic'
         type: exec
         command: 'MAVEN_OPTS="-Xmx1G" && mvn -Duser.home=${HOME} -DskipTests clean install'
         component: maven
-  - name: 2. Run
+  - id: 2. Run
     actions:
       - workdir: '${CHE_PROJECTS_ROOT}/spring-petclinic'
         type: exec
         command: 'MAVEN_OPTS="-Xmx1G" && mvn -Duser.home=${HOME} spring-boot:run'
         component: maven
-  - name: 3. Run in debug mode
+  - id: 3. Run in debug mode
     actions:
       - workdir: '${CHE_PROJECTS_ROOT}/spring-petclinic'
         type: exec
@@ -49,13 +49,13 @@ commands:
           mvn  -Duser.home=${HOME} spring-boot:run -Dspring-boot.run.jvmArguments="-Xdebug
            -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"
         component: maven
-  - name: 4. Run tests
+  - id: 4. Run tests
     actions:
       - workdir: '${CHE_PROJECTS_ROOT}/spring-petclinic'
         type: exec
         command: 'MAVEN_OPTS="-Xmx200m" && mvn -Duser.home=${HOME} verify'
         component: maven
-  - name: 5. Log into deployment cluster
+  - id: 5. Log into deployment cluster
     actions:
       - workdir: '${CHE_PROJECTS_ROOT}/spring-petclinic'
         type: exec
@@ -65,13 +65,13 @@ commands:
           echo "you must run 'oc login ...' in the maven terminal."
           echo
         component: maven
-  - name: 6. Deploy to OpenShift
+  - id: 6. Deploy to OpenShift
     actions:
       - workdir: '${CHE_PROJECTS_ROOT}/spring-petclinic'
         type: exec
         command: 'mvn fabric8:deploy -Popenshift -DskipTests'
         component: maven
-  - name: Debug remote java application
+  - id: Debug remote java application
     actions:
       - referenceContent: |
           {
